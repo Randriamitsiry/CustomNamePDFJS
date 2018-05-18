@@ -352,10 +352,32 @@ function isDataSchema(url) {
   return url.substr(i, 5).toLowerCase() === 'data:';
 }
 function getPDFFileNameFromURL(url) {
+  var defaultFilename = arguments.length > 1 && arguments["name"] !== undefined ? arguments["name"] : 'document.pdf';
+  console.log("location :" + window.location.href);
   var completeUrl = window.location.href;
   var splitedUrl = completeUrl.split("&");
+  console.log(splitedUrl);
   var resplit = splitedUrl[1].split("=");
-  return resplit[1];
+  console.log("splitted "+resplit[1]);
+  /*if (isDataSchema(url)) {
+    console.warn('getPDFFileNameFromURL: ' + 'ignoring "data:" URL for performance reasons.');
+    return defaultFilename;
+  }
+  var reURI = /^(?:(?:[^:]+:)?\/\/[^\/]+)?([^?#]*)(\?[^#]*)?(#.*)?$/;
+  var reFilename = /[^\/?#=]+\.pdf\b(?!.*\.pdf\b)/i;
+  var splitURI = reURI.exec(url);
+  console.log(url);
+  var suggestedFilename = reFilename.exec(splitURI[1]) || reFilename.exec(splitURI[2]) || reFilename.exec(splitURI[3]);
+  if (suggestedFilename) {
+    suggestedFilename = suggestedFilename[0];
+    if (suggestedFilename.indexOf('%') !== -1) {
+      try {
+        suggestedFilename = reFilename.exec(decodeURIComponent(suggestedFilename))[0];
+      } catch (ex) {}
+    }
+  }*/
+  //return defaultFilename || suggestedFilename;
+    return resplit[1];
 }
 function normalizeWheelEventDelta(evt) {
   var delta = Math.sqrt(evt.deltaX * evt.deltaX + evt.deltaY * evt.deltaY);
@@ -1833,7 +1855,7 @@ var PDFViewerApplication = {
 };
 var validateFileURL = void 0;
 {
-  var HOSTED_VIEWER_ORIGINS = ['null', 'http://mozilla.github.io', 'https://mozilla.github.io'];
+  var HOSTED_VIEWER_ORIGINS = ['null', 'http://mozilla.github.io', 'https://mozilla.github.io', 'http://igm.univ-mlv.fr'];
   validateFileURL = function validateFileURL(file) {
     if (file === undefined) {
       return;
