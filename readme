@@ -1,0 +1,6 @@
+You have to set parameters as "file" and "name" like below
+file : url to your file to be displayed
+name : name of the downloaded file
+src= "web/viewer.html?file=[urlFile]&name=[customName]"
+
+ENJOY!!
